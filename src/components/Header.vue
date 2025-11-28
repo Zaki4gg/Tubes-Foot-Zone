@@ -8,22 +8,19 @@
 
       <!-- Nav links -->
       <nav class="hidden md:flex items-center gap-6 text-[13px] ml-auto">
-        <RouterLink
-          to="/"
-          class="hover:text-slate-900 transition"
-          :class="route.name === 'home' ? 'text-emerald-600 font-semibold' : 'text-slate-700'"
-        >
+        <RouterLink to="/" :class="navClass('home')">
           Home
         </RouterLink>
 
-        <a href="#" class="hover:text-slate-900 transition">Product</a>
-        <a href="#" class="hover:text-slate-900 transition">About</a>
+        <RouterLink to="/product" :class="navClass('product')">
+          Product
+        </RouterLink>
 
-        <RouterLink
-          to="/contact"
-          class="hover:text-slate-900 transition"
-          :class="route.name === 'contact' ? 'text-emerald-600 font-semibold' : 'text-slate-700'"
-        >
+        <RouterLink to="/about" :class="navClass('about')">
+          About
+        </RouterLink>
+
+        <RouterLink to="/contact" :class="navClass('contact')">
           Contact
         </RouterLink>
       </nav>
@@ -55,4 +52,12 @@
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
+
+const baseClass = 'hover:text-slate-900 transition'
+
+const navClass = (name) => {
+  return route.name === name
+    ? `text-emerald-600 font-semibold ${baseClass}`
+    : `text-slate-700 ${baseClass}`
+}
 </script>
