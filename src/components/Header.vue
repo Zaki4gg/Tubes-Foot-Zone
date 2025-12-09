@@ -1,63 +1,113 @@
 <template>
   <header class="bg-white border-b border-slate-200">
-    <div class="max-w-6xl mx-auto flex items-center justify-between px-4 lg:px-0 py-4">
-      <!-- Logo -->
-      <div class="flex items-center gap-3">
-        <img src="@/assets/image/Logo_Foot_Zone.png" alt="Foot Zone Logo" class="h-18 w-auto" />
+    <div class="w-full px-3 sm:px-4 lg:px-12">
+      <!-- BARIS ATAS -->
+      <div class="h-14 md:h-16 flex items-center gap-3">
+        <!-- Logo -->
+        <RouterLink to="/" class="flex items-center gap-2 shrink-0">
+          <img :src="logo" alt="Foot Zone" class="h-10 w-auto md:h-18" />
+        </RouterLink>
+
+        <!-- Search bar: desktop & mobile, di tengah -->
+        <div class="flex-1 flex justify-center">
+          <div class="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+            <Search_Bar @search="handleSearch" />
+          </div>
+        </div>
+
+        <!-- Kanan: nav (desktop) + icon (mobile+desktop) -->
+        <div class="flex items-center gap-2 md:gap-5">
+          <!-- Desktop nav -->
+          <nav
+            class="hidden md:flex items-center gap-4 text-[11px] md:text-sm text-slate-700"
+          >
+            <RouterLink
+              to="/"
+              class="pb-0.5 border-b-2 border-transparent hover:border-emerald-500 hover:text-emerald-600"
+              :class="activeClass('/')"
+            >
+              Home
+            </RouterLink>
+
+            <RouterLink
+              to="/product"
+              class="pb-0.5 border-b-2 border-transparent hover:border-emerald-500 hover:text-emerald-600"
+              :class="activeClass('/product')"
+            >
+              Product
+            </RouterLink>
+
+            <RouterLink
+              to="/about"
+              class="pb-0.5 border-b-2 border-transparent hover:border-emerald-500 hover:text-emerald-600"
+              :class="activeClass('/about')"
+            >
+              About
+            </RouterLink>
+
+            <RouterLink
+              to="/contact"
+              class="pb-0.5 border-b-2 border-transparent hover:border-emerald-500 hover:text-emerald-600"
+              :class="activeClass('/contact')"
+            >
+              Contact
+            </RouterLink>
+          </nav>
+
+          <!-- Icon cart (selalu ada) -->
+          <RouterLink
+            to="/cart"
+            class="shrink-0 flex items-center justify-center"
+          >
+            <Icon
+              icon="tabler:shopping-cart"
+              class="w-5 h-5 md:w-6 md:h-6 text-slate-800"
+            />
+          </RouterLink>
+
+          <!-- Hamburger untuk mobile -->
+          <button
+            type="button"
+            class="md:hidden shrink-0 flex items-center justify-center"
+            @click="isMobileMenuOpen = true"
+          >
+            <Icon icon="tabler:menu-2" class="w-6 h-6 text-slate-800" />
+          </button>
+        </div>
       </div>
-
-      <!-- Nav links -->
-      <nav class="hidden md:flex items-center gap-6 text-[13px] ml-auto">
-        <RouterLink to="/" :class="navClass('home')">
-          Home
-        </RouterLink>
-
-        <RouterLink to="/product" :class="navClass('product')">
-          Product
-        </RouterLink>
-
-        <RouterLink to="/about" :class="navClass('about')">
-          About
-        </RouterLink>
-
-        <RouterLink to="/contact" :class="navClass('contact')">
-          Contact
-        </RouterLink>
-      </nav>
-
-      <!-- Cart icon -->
-      <button
-        class="h-12 w-12 flex items-center justify-center rounded-full hover:bg-slate-100 transition ml-4"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-8 w-8"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="1.5"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M2.25 3h1.386c.51 0 .955.343 1.087.835L5.25 7.5m0 0L6.6 13.2A1.125 1.125 0 007.71 14.25h10.665a1.125 1.125 0 001.092-.846l1.443-5.788A.563.563 0 0020.36 7.5H5.25zM10.5 19.125a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-          />
-        </svg>
-      </button>
     </div>
+    
+    <Mobile_Side_Nav
+      :is-open="isMobileMenuOpen"
+      @close="isMobileMenuOpen = false"
+    />
+
   </header>
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
+import { ref } from 'vue'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { Icon } from '@iconify/vue'
+import Search_Bar from './Search_Bar.vue' // karena satu folder dengan Header.vue
+import Mobile_Side_Nav from './Mobile_Side_Nav.vue'
+import logo from '@/assets/image/Logo_Foot_Zone.png'
 
 const route = useRoute()
+const router = useRouter()
 
-const baseClass = 'hover:text-slate-900 transition'
+const isMobileMenuOpen = ref(false)
 
-const navClass = (name) => {
-  return route.name === name
-    ? `text-emerald-600 font-semibold ${baseClass}`
-    : `text-slate-700 ${baseClass}`
+const activeClass = (path) =>
+  route.path === path ? 'border-emerald-500 text-emerald-600' : ''
+
+// ketika user submit cari dari header
+const handleSearch = (term) => {
+  if (!term) return
+
+  router.push({
+    path: '/product',
+    query: { q: term },
+  })
 }
 </script>

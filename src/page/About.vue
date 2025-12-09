@@ -16,7 +16,7 @@
     <!-- STATISTIK SINGKAT -->
     <section class="bg-white">
       <div class="max-w-6xl mx-auto px-4 lg:px-0 py-8 md:py-10">
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="grid gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
           <div
             v-for="item in stats"
             :key="item.label"
@@ -119,8 +119,8 @@
 </template>
 
 <script setup>
-import Header from './Header.vue'
-import Footer from './Footer.vue'
+import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
 import { Icon } from '@iconify/vue'
 
 const stats = [

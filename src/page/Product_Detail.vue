@@ -68,11 +68,10 @@
             </div>
 
             <!-- tombol aksi -->
-            <div class="pt-2 space-y-2">
+            <div class="mt-6 flex flex-col gap-3 md:max-w-xs">
               <button
                 type="button"
-                class="w-44 px-4 py-2 rounded-full bg-[#8e9ea2] text-white text-xs md:text-sm
-                       font-medium hover:bg-[#7a8a8e] transition"
+                class="w-full rounded-full bg-[#4f6367] text-white text-xs md:text-sm font-medium py-2.5 hover:bg-[#43565a] transition"
                 @click="handleBuyNow"
               >
                 Beli sekarang
@@ -80,8 +79,7 @@
 
               <button
                 type="button"
-                class="w-44 px-4 py-2 rounded-full bg-[#c94b4b] text-white text-xs md:text-sm
-                       font-medium hover:bg-[#b44242] transition"
+                class="w-full rounded-full bg-[#d4544c] text-white text-xs md:text-sm font-medium py-2.5 hover:bg-[#c2463f] transition"
                 @click="handleAddToCart"
               >
                 Tambah ke keranjang
@@ -100,16 +98,22 @@
           <div
             class="w-full aspect-[4/3] rounded-xl bg-slate-100 flex items-center justify-center"
           >
-            <span class="text-[11px] text-slate-400">
-              Gambar utama {{ product.name }}
-            </span>
+            <img
+              v-if="product.image"
+              :src="product.image"
+              :alt="`Foto utama ${product.name}`"
+              class="w-full h-full object-contain"
+            />
           </div>
           <div
             class="w-full aspect-[4/3] rounded-xl bg-slate-100 flex items-center justify-center"
           >
-            <span class="text-[11px] text-slate-400">
-              Gambar samping {{ product.name }}
-            </span>
+            <img
+              v-if="product.image"
+              :src="product.image"
+              :alt="`Foto samping ${product.name}`"
+              class="w-full h-full object-contain"
+            />
           </div>
         </div>
       </section>
@@ -156,85 +160,22 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import Header from './Header.vue'
-import Footer from './Footer.vue'
+import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
+import { product_detail } from '@/data/product_detail.js'
 
 const route = useRoute()
 const router = useRouter()
 
-// data produk (samakan id & nama dengan halaman Product-mu)
-const products = [
-  {
-    id: 1,
-    brand: 'Adidas',
-    name: 'Samba OG',
-    type: 'Sepatu Unisex',
-    price: 2000000,
-    category: 'casual',
-    description:
-      'Sebuah klasik sejati tidak pernah kehilangan zaman, dan sepatu adidas Samba ini adalah buktinya. Dirancang pertama kali untuk sepak bola indoor, Samba telah berkembang jadi sepatu ikonis untuk tampilan sehari-hari yang wajib dimiliki para penggemar streetwear.',
-  },
-  {
-    id: 2,
-    brand: 'Adidas',
-    name: 'Adizero Adios Pro 4',
-    type: 'Sepatu Lari',
-    price: 4000000,
-    category: 'sports',
-    description:
-      'Sepatu lari performa tinggi dengan cushioning responsif untuk lari jarak jauh dan race.',
-  },
-  {
-    id: 3,
-    brand: 'Adidas',
-    name: 'Gazelle Indoor',
-    type: 'Sepatu Unisex',
-    price: 1900000,
-    category: 'casual',
-    description:
-      'Desain retro dengan nuansa vintage, cocok untuk tampilan santai yang tetap rapi.',
-  },
-  {
-    id: 4,
-    brand: 'Adidas',
-    name: 'Campus 00s',
-    type: 'Sneakers',
-    price: 1700000,
-    category: 'sneakers',
-    description:
-      'Siluet tebal ala Y2K yang sedang tren, mudah dipadukan dengan berbagai outfit kasual.',
-  },
-  {
-    id: 5,
-    brand: 'Onitsuka Tiger',
-    name: 'Mexico 66',
-    type: 'Sepatu Unisex',
-    price: 2500000,
-    category: 'casual',
-    description:
-      'Sepatu ikonik dengan desain minimalis dan nyaman untuk dipakai seharian.',
-  },
-  {
-    id: 6,
-    brand: 'Onitsuka Tiger',
-    name: 'Tokuten',
-    type: 'Sepatu Unisex',
-    price: 2800000,
-    category: 'casual',
-    description:
-      'Terinspirasi dari sepatu futsal klasik dengan sentuhan modern untuk gaya sehari-hari.',
-  },
-]
-
 // produk yang sedang dibuka
 const product = computed(() => {
   const id = Number(route.params.id)
-  return products.find((p) => p.id === id) || products[0]
+  return product_detail.find((p) => p.id === id) || product_detail[0]
 })
 
 // rekomendasi: produk lain selain yang sekarang (maks 4)
 const recommended = computed(() =>
-  products.filter((p) => p.id !== product.value.id).slice(0, 4),
+  product_detail.filter((p) => p.id !== product.value.id).slice(0, 4),
 )
 
 // opsi select
@@ -257,6 +198,7 @@ const handleBuyNow = () => {
   alert(
     `Beli sekarang: ${product.value.name} (Ukuran ${selectedSize.value}, ${selectedQty.value} pasang).`,
   )
+  router.push('/checkout')
 }
 
 const handleAddToCart = () => {
