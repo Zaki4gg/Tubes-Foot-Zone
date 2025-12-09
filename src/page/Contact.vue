@@ -240,12 +240,12 @@
           </div>
 
           <!-- Map placeholder -->
-          <div class="md:w-7/12">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8754651272397!2d116.83153497477734!3d-1.245638798742483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df147afc5775193%3A0x7f9197b6114bdc73!2sJl.%20Panorama%20271%2C%20Mekar%20Sari%2C%20Kec.%20Balikpapan%20Tengah%2C%20Kota%20Balikpapan%2C%20Kalimantan%20Timur%2076122!5e0!3m2!1sid!2sid!4v1763062265067!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            <p class="mt-2 text-[10px] text-slate-400">
-              *Tampilan peta bersifat ilustratif dan dapat diganti dengan embed Google Maps
-              sesuai kebutuhan.
-            </p>
+          <div
+            class="w-full max-w-xs sm:max-w-sm md:max-w-full
+                    h-48 sm:h-56 md:h-72 lg:h-80
+                    rounded-xl overflow-hidden mx-auto md:mx-0"
+          >
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d249.30471194289572!2d116.83364979541838!3d-1.2456877087175473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df147ad00c2b2c1%3A0x36ac94c73bdadeb6!2sTeras%20Panorama!5e0!3m2!1sid!2sid!4v1765195267362!5m2!1sid!2sid" class="w-full h-full border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
       </div>
@@ -257,6 +257,6 @@
 </template>
 
 <script setup>
-import Header from "./Header.vue";
-import Footer from "./Footer.vue";
+import Header from "@/components/Header.vue";
+import Footer from "@/components/Footer.vue";
 </script>

@@ -5,21 +5,37 @@
 
     <!-- HERO -->
     <section class="bg-[#8ea3a7] text-white">
-      <div class="max-w-6xl mx-auto px-4 lg:px-0 py-16 md:py-20 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold mb-2 text-black">Foot Zone</h1>
-        <p class="text-sm md:text-base mb-6 text-black">
+      <div class="max-w-5xl mx-auto px-4 py-12 md:py-16 text-center">
+        <h1 class="text-2xl md:text-3xl font-bold mb-2 text-black">
+          Foot Zone
+        </h1>
+        <p class="text-xs md:text-sm mb-4 text-black">
           Temukan Sepatu Impianmu di FootZone
         </p>
-        <p class="text-[11px] md:text-xs max-w-xl mx-auto mb-2 leading-relaxed text-black">
+        <p class="text-[11px] md:text-xs max-w-xl mx-auto mb-4 leading-relaxed text-black">
           Temukan koleksi sepatu terbaik untuk setiap momen. Dari olahraga hingga
           formal, kami punya semuanya.
         </p>
-        <button
-          class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-[#D9D9D9] text-slate-900 text-xs md:text-sm font-medium shadow-sm hover:bg-slate-100 transition"
+        <RouterLink
+          to="/product"
+          class="inline-flex items-center gap-2 mt-4
+                text-xs md:text-sm font-semibold text-slate-900
+                transition-transform duration-200"
         >
-          Temukan Sekarang
-            <img src="@/assets/image/icon_arrow_kanan.png" class="h-10 w-auto" />       
-        </button>
+          <span
+            class="border-b border-slate-700/40 pb-0.5
+                  hover:border-slate-900 hover:text-emerald-700
+                  hover:-translate-y-0.5 inline-block"
+          >
+            Temukan Sekarang
+          </span>
+          <img
+            src="@/assets/image/icon_arrow_kanan.png"
+            alt=""
+            class="h-4 w-auto md:h-5 md:w-auto
+                  transform hover:-translate-y-0.5 transition-transform duration-200"
+        />
+        </RouterLink>
       </div>
     </section>
 
@@ -53,38 +69,22 @@
     </section>
 
     <!-- FEATURED PRODUCTS -->
-    <section class="bg-[#f1f1f1] border-t border-slate-200">
-      <div class="max-w-6xl mx-auto px-4 lg:px-0 py-10 md:py-12">
-        <div class="mb-6">
-          <h2 class="text-lg md:text-xl font-semibold">
-            Featured Products
-          </h2>
-          <p class="text-[11px] md:text-xs text-slate-500 mt-1">
-            Koleksi pilihan terbaik minggu ini
-          </p>
-        </div>
+    <section class="bg-[#f1f1f1] border border-slate-200 rounded-xl px-3 py-6 md:px-5 md:py-8 mb-10">
+      <div class="mb-4">
+        <h2 class="text-base md:text-lg font-semibold">
+          Featured Products
+        </h2>
+        <p class="text-[11px] md:text-xs text-slate-500 mt-1">
+          Koleksi pilihan terbaik minggu ini
+        </p>
+      </div>
 
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          <article
-            v-for="product in products"
-            :key="product.name"
-            class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden flex flex-col"
-          >
-            <div
-              class="aspect-[4/3] bg-slate-100 flex items-center justify-center text-[10px] text-slate-400"
-            >
-              Gambar Sepatu
-            </div>
-            <div class="px-3 pb-3 pt-2">
-              <h3 class="text-[11px] font-medium text-slate-800">
-                {{ product.name }}
-              </h3>
-              <p class="text-[11px] text-slate-500 mt-1">
-                Rp. {{ product.price.toLocaleString('id-ID') }}
-              </p>
-            </div>
-          </article>
-        </div>
+      <div class="grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-4">
+        <Product_Card
+          v-for="product in featuredProducts"
+          :key="product.id"
+          :product="product"
+        />
       </div>
     </section>
 
@@ -166,12 +166,14 @@
                 Ringan, nyaman, dan mudah dipadukan dengan outfit favoritmu.
                 </p>
 
-                <button
+                <RouterLink
+                to="/product"
+                tag="button"
                 class="mt-4 inline-flex items-center text-[11px] font-semibold text-emerald-600 hover:underline"
                 >
                 Jelajahi koleksi
                 <span class="ml-1">→</span>
-                </button>
+                </RouterLink>
             </div>
             </div>
         </div>
@@ -187,8 +189,11 @@
 </template>
 
 <script setup>
-import Header from "./Header.vue";
-import Footer from "./Footer.vue";
+import { ref } from "vue";
+import Header from "@/components/Header.vue";
+import Footer from "@/components/Footer.vue";
+import Product_Card from "@/components/Product_Card.vue";
+import { products } from "@/data/product.js";
 
 const categories = [
   {
@@ -209,10 +214,18 @@ const categories = [
   },
 ];
 
-const products = [
-  { name: "Adidas Ultraboot 5s", price: 2300000 },
-  { name: "Onitsuka Tiger TS-2Run", price: 2200000 },
-  { name: "Onitsuka Tiger Mexico 66", price: 2500000 },
-  { name: "Adidas Campus 80s", price: 1700000 },
-];
+
+// helper ambil N produk random
+function getRandomProducts(list, count) {
+  const array = [...list]; // copy biar nggak ngubah aslinya
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // shuffle Fisher–Yates
+  }
+  return array.slice(0, count);
+}
+
+// 4 produk random untuk ditampilkan di Home
+const featuredProducts = ref(getRandomProducts(products, 4));
+
 </script>
