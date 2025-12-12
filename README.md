@@ -1,6 +1,7 @@
-# File yang di buat:
+## File yang di buat:
 - CV.vue
 
+# File yang terlibat:
 ## page
 - CV.vue
 
