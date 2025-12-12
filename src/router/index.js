@@ -7,6 +7,7 @@ import About from '@/page/About.vue';
 import Product_Detail from '@/page/Product_Detail.vue';
 import Cart from '@/page/Cart.vue';
 import Checkout from '@/page/Checkout.vue';
+import CV from '@/page/CV.vue';
 
 const routes = [
     {
@@ -49,6 +50,12 @@ const routes = [
         path: "/checkout",
         name: 'checkout',
         component: Checkout
+    },
+
+    {
+        path: "/cv",
+        name: 'cv',
+        component: CV
     }
 ]
 

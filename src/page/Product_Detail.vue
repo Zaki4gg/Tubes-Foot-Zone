@@ -167,18 +167,18 @@ import { product_detail } from '@/data/product_detail.js'
 const route = useRoute()
 const router = useRouter()
 
-// produk yang sedang dibuka
+
 const product = computed(() => {
   const id = Number(route.params.id)
   return product_detail.find((p) => p.id === id) || product_detail[0]
 })
 
-// rekomendasi: produk lain selain yang sekarang (maks 4)
+
 const recommended = computed(() =>
   product_detail.filter((p) => p.id !== product.value.id).slice(0, 4),
 )
 
-// opsi select
+
 const sizes = ['38', '39', '40', '41', '42', '43', '44']
 const quantities = [1, 2, 3, 4, 5]
 

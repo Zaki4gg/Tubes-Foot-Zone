@@ -52,6 +52,14 @@
             >
               Contact
             </RouterLink>
+
+            <RouterLink
+              to="/cv"
+              class="pb-0.5 border-b-2 border-transparent hover:border-emerald-500 hover:text-emerald-600"
+              :class="activeClass('/cv')"
+            >
+              CV
+            </RouterLink>
           </nav>
 
           <!-- Icon cart (selalu ada) -->

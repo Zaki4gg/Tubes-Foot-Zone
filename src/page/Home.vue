@@ -215,17 +215,17 @@ const categories = [
 ];
 
 
-// helper ambil N produk random
+
 function getRandomProducts(list, count) {
-  const array = [...list]; // copy biar nggak ngubah aslinya
+  const array = [...list]; 
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]; // shuffle Fisher–Yates
+    [array[i], array[j]] = [array[j], array[i]]; 
   }
   return array.slice(0, count);
 }
 
-// 4 produk random untuk ditampilkan di Home
+
 const featuredProducts = ref(getRandomProducts(products, 4));
 
 </script>
