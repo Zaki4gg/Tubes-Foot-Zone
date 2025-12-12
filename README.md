@@ -7,6 +7,7 @@
 
 ## component
 - Header.vue
+- Footer.vue
 
 ## route
 - /cv
